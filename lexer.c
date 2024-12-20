@@ -16,6 +16,9 @@
  *  - Initializes the lexer with 'init_lexer()'
  *  - Usage 'get_next_token()' to extract tokens 
  *  - Free resources with 'destroy_lexer()' and 'destroy_token()'
+ * 
+ * @file    lexer.c
+ * @author  Sophia Le (s0phia-le)
  */
 #include <stdio.h>
 #include <stdlib.h>
