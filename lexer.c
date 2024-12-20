@@ -55,7 +55,7 @@ Lexer * init(const char * filename) {
  * 
  * @param lexer: A pointer to the lexer
  */
-void destroy(Lexer * lexer) {
+void destroy_lexer(Lexer * lexer) {
     if(lexer->input) {
         fclose(lexer->input);
     }
@@ -199,4 +199,76 @@ Token * get_next(Lexer * lexer) {
 
         advance(lexer);
         return token;
+}
+
+/**
+ * Destroys the token and all memory resources associated
+ * with it.
+ * 
+ * @param token: A pointer to the token to be destroyed
+ */
+void destroy_token(Token * token) {
+    if(token->token) free(token->token);
+    free(token);
+}
+
+/**
+ * Checks if a character is whitespace
+ * 
+ * @param c: The character to be checked
+ * @return: 'true' if the character is whitespace, 'false' otherwise
+ */
+bool is_whitespace(char c) {
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r';
+}
+
+/**
+ * Checks if a character is a digit
+ * 
+ * @param c: The character to be checked
+ * @return: 'true' if the character is a digit, 'false' otherwise
+ */
+bool is_digit(char c) {
+    return c >= '0' && c <= '9';
+}
+
+/**
+ * Checks if a character is a letter of the alphabet.
+ * 
+ * @param c: The character to be checked
+ * @return: 'true' if the character is a letter, 'false' otherwise
+ */
+bool is_letter(char c) {
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
+
+/**
+ * Checks if a character is a mathematical operator
+ * 
+ * @param c: The character to be checked
+ * @return: 'true' if the character is an operator, 'false' otherwise
+ */
+bool is_operator(char c) {
+    return strchr("+-*/=<>!&|", c) != NULL;
+}
+
+/**
+ * Checks if a token is a valid keyword. Valid keywords include:
+ * - "if"
+ * - "else"
+ * - "while"
+ * - "return"
+ * - "int"
+ * - "float"
+ * - NULL
+ * 
+ * @param token: A pointer to the token to be checked
+ * @return: 'true' if the token is a valid keyword, 'false' otherwise
+ */
+bool is_keyword(const char * token) {
+    const char * keywords[] = { "if", "else", "while", "return", "int", "float", NULL };
+    for(int i = 0; keywords[i]; i++) {
+        if(strcmp(token, keywords[i]) == 0) return true;
+    }
+    return false;
 }
